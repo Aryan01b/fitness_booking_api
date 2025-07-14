@@ -9,6 +9,7 @@ __pycache__/
 # Environments
 .meta/
 .venv/
+venv
 
 # Environment files
 .env
