@@ -4,9 +4,25 @@ __pycache__/
 *.pyo
 *.pyd
 *.pdb
+*.pyc
 
 # Environments
 .meta/
-venv/
+.venv/
+venv
+
+# Environment files
 .env
-.env.example
+.env.*
+!.env.example
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.sqlite3-journal
+
+# Logs
+*.log
+
