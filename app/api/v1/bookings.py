@@ -1,26 +1,27 @@
-from fastapi import APIRouter, HTTPException
-from app.models.booking_model import Booking
-from datetime import datetime
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.orm import Session
+from typing import List
 
-router = APIRouter()
+from app.schemas.booking_schema import BookingRequest, BookingResponse
+from app.services.booking_service import create_booking, get_bookings_by_email
+from app.db.database import SessionLocal
 
-# In-memory bookings storage
-bookings_db = []
+router = APIRouter(prefix="/bookings", tags=["Bookings"])
 
-@router.post("/book")
-def book_class(class_id: int, client_name: str, client_email: str):
-    # Placeholder: Check slots & book logic to be added later
-    booking = Booking(
-        id=len(bookings_db)+1,
-        class_id=class_id,
-        client_name=client_name,
-        client_email=client_email,
-        booking_time=datetime.utcnow()
-    )
-    bookings_db.append(booking)
-    return {"message": "Booking successful!", "booking": booking}
+# Dependency to get DB session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-@router.get("/bookings")
-def get_bookings(client_email: str):
-    client_bookings = [b for b in bookings_db if b.client_email == client_email]
-    return client_bookings
+@router.post("/book", response_model=BookingResponse)
+def book_class(booking_request: BookingRequest, db: Session = Depends(get_db)):
+    booking = create_booking(db, booking_request)
+    return booking
+
+@router.get("/", response_model=List[BookingResponse])
+def read_bookings(email: str = Query(..., description="Client email to filter bookings"), db: Session = Depends(get_db)):
+    bookings = get_bookings_by_email(db, email)
+    return bookings

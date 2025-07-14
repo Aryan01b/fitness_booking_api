@@ -1,9 +1,12 @@
-from datetime import datetime
-from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
 
-class Booking(BaseModel):
-    id: int
-    class_id: int
-    client_name: str
-    client_email: str
-    booking_time: datetime
+from .class_model import Base
+
+class Booking(Base):
+    __tablename__ = "bookings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    class_id = Column(Integer, ForeignKey("classes.id"), nullable=False)
+    client_name = Column(String, nullable=False)
+    client_email = Column(String, nullable=False, index=True)

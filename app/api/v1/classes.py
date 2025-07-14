@@ -1,15 +1,22 @@
-from fastapi import APIRouter
-from app.models.class_model import FitnessClass
-from datetime import datetime
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from typing import List
 
-router = APIRouter()
+from app.schemas.class_schema import FitnessClassResponse
+from app.services.class_service import get_all_classes
+from app.db.database import SessionLocal
 
-# Mock in-memory DB for classes
-classes_db = [
-    FitnessClass(id=1, name="Yoga", datetime=datetime(2025, 7, 15, 10, 0), instructor="Alice", available_slots=10),
-    FitnessClass(id=2, name="Zumba", datetime=datetime(2025, 7, 15, 12, 0), instructor="Bob", available_slots=15)
-]
+router = APIRouter(prefix="/classes", tags=["Classes"])
 
-@router.get("/classes")
-def get_classes():
-    return classes_db
+# Dependency to get DB session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@router.get("/", response_model=List[FitnessClassResponse])
+def read_classes(db: Session = Depends(get_db)):
+    classes = get_all_classes(db)
+    return classes
