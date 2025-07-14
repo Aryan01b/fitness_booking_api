@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.endpoints import classes, bookings
+from app.api.v1 import classes, bookings
 
 app = FastAPI(title="Fitness Studio Booking API")
 
