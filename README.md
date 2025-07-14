@@ -1,28 +1,65 @@
-# Fitness Studio Booking API
+# 🧘‍♂️ Fitness Studio Booking API
 
-A high-performance RESTful API for managing fitness class bookings at OmniFit Studios. Built with FastAPI, this API provides a robust solution for class management, booking, and user management.
+A robust **FastAPI** backend for managing fitness class bookings, supporting various workout types including Yoga, Zumba, HIIT, and more.  
+Built with **SQLAlchemy ORM** and **Pydantic** for type safety and data validation.  
+Designed to demonstrate production-ready API development practices with clean architecture.
+
+---
 
 ## 🚀 Features
 
-- Browse upcoming fitness classes with real-time availability
-- Comprehensive class and booking management
-- Timezone-aware scheduling (IST by default)
-- Input validation and error handling
-- Automated testing with pytest
-- API documentation with Swagger UI
+### Core Functionality
+- **Class Management**
+  - View all upcoming classes with filtering options
+  - Get class details including name, schedule, instructor, and available slots
+  - Automatic slot availability tracking
 
-## 🛠️ Tech Stack
+### Booking System
+- **Class Booking**
+  - Reserve spots in fitness classes with real-time validation
+  - Prevent double bookings and handle concurrent requests
+  - Email notifications for booking confirmations
 
-- **Framework**: FastAPI (Python 3.9+)
-- **Database**: SQLAlchemy
-- **Testing**: pytest
-- **Linting**: flake8, black
-- **Documentation**: Swagger UI, Redoc
+### User Experience
+- **Booking Management**
+  - View all bookings by email
+  - Cancel bookings (with proper validation)
+  - Booking history with timestamps
 
-## 🚀 Getting Started
+### Technical Features
+- **Database**
+  - SQLite with in-memory storage for development
+  - Easy migration to persistent storage
+  - Pre-populated with sample data
+
+- **API**
+  - RESTful endpoints with proper HTTP methods
+  - Request/response validation using Pydantic models
+  - Comprehensive error handling
+  - API versioning support
+
+- **Testing**
+  - Unit tests with `pytest`
+  - Test coverage reporting
+  - Integration tests for API endpoints
+
+---
+
+## 🛠 Tech Stack
+
+- **Backend Framework**: FastAPI
+- **Database**: SQLite (in-memory), SQLAlchemy
+- **Data Validation**: Pydantic
+- **Testing**: Pytest
+- **Dependency Management**: Pip
+- **API Documentation**: Swagger UI
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
-
+- Python 3.10+
 - Python 3.9 or higher
 - pip (Python package manager)
 
@@ -64,7 +101,6 @@ The API will be available at `http://localhost:8000`
 
 Interactive API documentation is available at:
 - Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
 
 ### Available Endpoints
 
@@ -72,7 +108,7 @@ Interactive API documentation is available at:
 - `GET /api/v1/classes` - List all upcoming fitness classes
 
 #### Bookings
-- `POST /api/v1/book` - Create a new booking
+- `POST /api/v1/bookings/book` - Create a new booking
 - `GET /api/v1/bookings` - List bookings by email
 
 ## 🧪 Running Tests

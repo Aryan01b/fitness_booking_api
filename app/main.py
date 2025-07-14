@@ -1,17 +1,35 @@
-"""
-Main application module for Omnify Fitness Studio Booking API.
-
-This module serves as the entry point for the FastAPI application.
-"""
 from fastapi import FastAPI
-from .database import engine, Base
+from fastapi.middleware.cors import CORSMiddleware
 
-# Initialize FastAPI
-app = FastAPI(title="Fitness Studio Booking API")
+from app.api.v1 import classes, bookings
+from app.db import database  # Ensures seed_data runs on import
 
-# Create tables on startup
-Base.metadata.create_all(bind=engine)
+app = FastAPI(
+    title="Fitness Studio Booking API",
+    version="1.0.0",
+    description="API for viewing fitness classes and booking slots"
+)
 
-@app.get("/")
-def root():
-    return {"message": "Fitness Studio Booking API is running 🚀"}
+# ---------------------------------------------------
+# Include API Routers
+# ---------------------------------------------------
+app.include_router(classes.router)
+app.include_router(bookings.router)
+
+# ---------------------------------------------------
+# CORS Middleware (optional, but useful for testing)
+# ---------------------------------------------------
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Update for production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ---------------------------------------------------
+# Startup Event (Optional, seed already runs on import)
+# ---------------------------------------------------
+@app.on_event("startup")
+def startup_event():
+    print("🚀 API is ready! Seed data should be available.")
