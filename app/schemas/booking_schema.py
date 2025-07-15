@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from pydantic import ConfigDict
 
 class BookingRequest(BaseModel):
     class_id: int
@@ -11,5 +12,4 @@ class BookingResponse(BaseModel):
     client_name: str
     client_email: EmailStr
 
-    class Config:
-        from_attributes = True  # Pydantic v2 compatibility
+    model_config = ConfigDict(from_attributes=True)  # Pydantic v2+ compatibility

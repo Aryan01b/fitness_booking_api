@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from datetime import datetime
 
 class FitnessClassBase(BaseModel):
@@ -10,5 +11,4 @@ class FitnessClassBase(BaseModel):
 class FitnessClassResponse(FitnessClassBase):
     id: int  # class_id
 
-    class Config:
-        from_attributes = True  # Enables reading ORM objects directly in Pydantic v2
+    model_config = ConfigDict(from_attributes=True)  # Pydantic v2+ compatibility
