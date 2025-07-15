@@ -13,12 +13,18 @@ app = FastAPI(
 )
 
 from app.middleware.logging_middleware import LoggingMiddleware
+from app.middleware.exception_middleware import ExceptionMiddleware
 
 # ---------------------------------------------------
 # Include API Routers
 # ---------------------------------------------------
 app.include_router(classes.router)
 app.include_router(bookings.router)
+
+# ---------------------------------------------------
+# Exception Middleware (should be first)
+# ---------------------------------------------------
+app.add_middleware(ExceptionMiddleware)
 
 # ---------------------------------------------------
 # CORS Middleware (optional, but useful for testing)
