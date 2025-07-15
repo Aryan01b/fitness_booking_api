@@ -51,13 +51,13 @@ def seed_data():
             name="Yoga",
             datetime=convert_ist_to_timezone(now_naive.replace(hour=7), "Asia/Kolkata"),
             instructor="Alice",
-            available_slots=0,
+            available_slots=10,
         ),
         FitnessClass(
             name="Zumba",
             datetime=convert_ist_to_timezone(now_naive.replace(hour=9), "Asia/Kolkata"),
             instructor="Bob",
-            available_slots=15,
+            available_slots=0,
         ),
         FitnessClass(
             name="HIIT",

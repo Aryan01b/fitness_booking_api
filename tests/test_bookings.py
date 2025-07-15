@@ -48,9 +48,14 @@ def test_duplicate_booking_same_email_fails():
 
 
 def test_booking_fails_when_no_slots():
-    # Try to book classid 1, which is assumed to have 0 slots
+    # Find a class with zero slots
+    classes_response = client.get("/api/v1/classes")
+    assert classes_response.status_code == 200
+    classes = classes_response.json()
+    zero_slot_class = next((c for c in classes if c["available_slots"] == 0), None)
+    assert zero_slot_class is not None, "No class with zero slots found."
     booking_payload = {
-        "class_id": 1,
+        "class_id": zero_slot_class["id"],
         "client_name": "Zero Slot",
         "client_email": "zeroslot@example.com"
     }
