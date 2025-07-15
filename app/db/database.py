@@ -43,25 +43,25 @@ def seed_data():
         db.close()
         return  # Already seeded
 
-    ist = pytz.timezone("Asia/Kolkata")
-    now = datetime.now(ist)
+    from app.utils.timezone_utils import convert_ist_to_timezone
+    now_naive = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
     classes = [
         FitnessClass(
             name="Yoga",
-            datetime=now.replace(hour=7, minute=0, second=0, microsecond=0),
+            datetime=convert_ist_to_timezone(now_naive.replace(hour=7), "Asia/Kolkata"),
             instructor="Alice",
             available_slots=0,
         ),
         FitnessClass(
             name="Zumba",
-            datetime=now.replace(hour=9, minute=0, second=0, microsecond=0),
+            datetime=convert_ist_to_timezone(now_naive.replace(hour=9), "Asia/Kolkata"),
             instructor="Bob",
             available_slots=15,
         ),
         FitnessClass(
             name="HIIT",
-            datetime=now.replace(hour=18, minute=0, second=0, microsecond=0),
+            datetime=convert_ist_to_timezone(now_naive.replace(hour=18), "Asia/Kolkata"),
             instructor="Charlie",
             available_slots=12,
         ),
