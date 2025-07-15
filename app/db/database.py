@@ -51,7 +51,7 @@ def seed_data():
             name="Yoga",
             datetime=now.replace(hour=7, minute=0, second=0, microsecond=0),
             instructor="Alice",
-            available_slots=10,
+            available_slots=0,
         ),
         FitnessClass(
             name="Zumba",
