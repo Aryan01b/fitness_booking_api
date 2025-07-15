@@ -2,10 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1 import classes, bookings
-from app.db import database  # Ensures seed_data runs on import
+from app.core.config import Settings
+
+settings = Settings()
 
 app = FastAPI(
-    title="Fitness Studio Booking API",
+    title=settings.APP_NAME,
     version="1.0.0",
     description="API for viewing fitness classes and booking slots"
 )
@@ -26,10 +28,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# ---------------------------------------------------
-# Startup Event (Optional, seed already runs on import)
-# ---------------------------------------------------
-@app.on_event("startup")
-def startup_event():
-    print("🚀 API is ready! Seed data should be available.")

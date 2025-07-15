@@ -1,58 +1,33 @@
 # 🧘‍♂️ Fitness Studio Booking API
 
-A robust **FastAPI** backend for managing fitness class bookings, supporting various workout types including Yoga, Zumba, HIIT, and more.  
-Built with **SQLAlchemy ORM** and **Pydantic** for type safety and data validation.  
-Designed to demonstrate production-ready API development practices with clean architecture.
+A simple, modern API for fitness studios to manage class schedules and allow users to book workout sessions online.
+
+- Studio owners can list classes, set available slots, and track bookings.
+- Users can view all available fitness classes and reserve a spot instantly—no double booking or overbooking allowed!
+
+Ideal for gyms, yoga studios, and group fitness instructors looking for a fast, reliable way to handle class signups and attendance.
 
 ---
 
 ## 🚀 Features
 
-### Core Functionality
-- **Class Management**
-  - View all upcoming classes with filtering options
-  - Get class details including name, schedule, instructor, and available slots
-  - Automatic slot availability tracking
-
-### Booking System
-- **Class Booking**
-  - Reserve spots in fitness classes with real-time validation
-  - Prevent double bookings and handle concurrent requests
-  - Email notifications for booking confirmations
-
-### User Experience
-- **Booking Management**
-  - View all bookings by email
-  - Cancel bookings (with proper validation)
-  - Booking history with timestamps
-
-### Technical Features
-- **Database**
-  - SQLite with in-memory storage for development
-  - Easy migration to persistent storage
-  - Pre-populated with sample data
-
-- **API**
-  - RESTful endpoints with proper HTTP methods
-  - Request/response validation using Pydantic models
-  - Comprehensive error handling
-  - API versioning support
-
-- **Testing**
-  - Unit tests with `pytest`
-  - Test coverage reporting
-  - Integration tests for API endpoints
+- View all available fitness classes
+- Book a class (prevents duplicate bookings per email/class and overbooking)
+- List bookings by email
+- SQLite in-memory database (easy to swap for persistent storage)
+- Robust API validation & error handling
+- Fully tested with pytest
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Backend Framework**: FastAPI
-- **Database**: SQLite (in-memory), SQLAlchemy
-- **Data Validation**: Pydantic
-- **Testing**: Pytest
-- **Dependency Management**: Pip
-- **API Documentation**: Swagger UI
+- **Framework:** FastAPI
+- **ORM/Database:** SQLAlchemy with SQLite (in-memory for dev)
+- **Validation:** Pydantic
+- **Testing:** Pytest
+- **Dependency Management:** pip
+- **API Docs:** Swagger UI (OpenAPI)
 
 ---
 
@@ -82,11 +57,6 @@ Designed to demonstrate production-ready API development practices with clean ar
    pip install -r requirements.txt
    ```
 
-4. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env file with your configuration
-   ```
 
 ### Running the Application
 
@@ -105,11 +75,11 @@ Interactive API documentation is available at:
 ### Available Endpoints
 
 #### Classes
-- `GET /api/v1/classes` - List all upcoming fitness classes
+- `GET /api/v1/classes` — List all upcoming fitness classes
 
 #### Bookings
-- `POST /api/v1/bookings/book` - Create a new booking
-- `GET /api/v1/bookings` - List bookings by email
+- `POST /api/v1/book` — Create a new booking
+- `GET /api/v1/bookings` — List bookings by email
 
 ## 🧪 Running Tests
 

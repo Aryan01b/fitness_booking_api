@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import NoResultFound
 from app.models.class_model import FitnessClass
 from app.models.booking_model import Booking
 from app.schemas.booking_schema import BookingRequest
@@ -15,6 +14,17 @@ def create_booking(db: Session, booking_request: BookingRequest) -> Booking:
     # Check if slots are available
     if fitness_class.available_slots <= 0:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No slots available for this class")
+
+    # Check if the client has already booked this class
+    existing_booking = db.query(Booking).filter(
+        Booking.class_id == booking_request.class_id,
+        Booking.client_email == booking_request.client_email
+    ).first()
+    if existing_booking:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="You have already booked this class with this email."
+        )
 
     # Decrement slot count
     fitness_class.available_slots -= 1
