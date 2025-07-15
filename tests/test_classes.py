@@ -4,7 +4,7 @@ from app.main import app
 client = TestClient(app)
 
 def test_get_classes():
-    response = client.get("/classes/")
+    response = client.get("/api/v1/classes")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
