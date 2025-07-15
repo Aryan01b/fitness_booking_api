@@ -26,10 +26,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# ---------------------------------------------------
-# Startup Event (Optional, seed already runs on import)
-# ---------------------------------------------------
-@app.on_event("startup")
-def startup_event():
-    print("🚀 API is ready! Seed data should be available.")
