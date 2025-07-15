@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "8004a05e-5886-477f-b303-bf9d637bc359",
+		"name": "Fitness Booking API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46216579",
+		"_collection_link": "https://rn-2312695.postman.co/workspace/RN's-Workspace~48dcacd1-ac13-4656-8f85-8634d4b59429/collection/46216579-8004a05e-5886-477f-b303-bf9d637bc359?action=share&source=collection_link&creator=46216579"
+	},
+	"item": [
+		{
+			"name": "classes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/classes",
+					"host": [
+						"http://127.0.0.1:8000"
+					],
+					"path": [
+						"api",
+						"v1",
+						"classes"
+					],
+					"query": [
+						{
+							"key": "display_tz",
+							"value": "America/Havana",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bookings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response content type is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response is an array with at least one booking object\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+							"    responseData.forEach(function(booking) {",
+							"        pm.expect(booking).to.be.an('object');",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate the booking object structure\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+							"    ",
+							"    responseData.forEach(function(booking) {",
+							"        pm.expect(booking).to.be.an('object');",
+							"        pm.expect(booking).to.have.all.keys('id', 'class_id', 'client_name', 'client_email');",
+							"        ",
+							"        pm.expect(booking.id).to.be.a('number');",
+							"        pm.expect(booking.class_id).to.be.a('number');",
+							"        pm.expect(booking.client_name).to.be.a('string');",
+							"        pm.expect(booking.client_email).to.be.a('string').that.matches(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email format is invalid\");",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Client email is in a valid format\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+							"    ",
+							"    responseData.forEach(function(booking) {",
+							"        pm.expect(booking.client_email).to.exist;",
+							"        pm.expect(booking.client_email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Client email format is invalid\");",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/bookings?email=john@example.com",
+					"host": [
+						"http://127.0.0.1:8000"
+					],
+					"path": [
+						"api",
+						"v1",
+						"bookings"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "john@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"class_id\": 1,\n    \"client_name\": \"John Doe\",\n    \"client_email\": \"john@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/book",
+					"host": [
+						"http://127.0.0.1:8000"
+					],
+					"path": [
+						"api",
+						"v1",
+						"book"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -22,20 +22,25 @@ from app.core.config import Settings
 
 settings = Settings()
 
+from fastapi import HTTPException
+import pytz
+
 @router.get("/classes", response_model=List[FitnessClassResponse])
 def read_classes(
     db: Session = Depends(get_db),
     display_tz: str = Query(None, description="Timezone name for display (e.g. 'UTC', 'America/New_York')")
 ):
-    classes = get_all_classes(db)
     tz = display_tz or settings.TZ_DEFAULT
+    # Validate timezone
+    try:
+        pytz.timezone(tz)
+    except Exception:
+        raise HTTPException(status_code=400, detail=f"Invalid timezone: {tz}")
+    classes = get_all_classes(db)
     out = []
     for c in classes:
         c_dict = c.__dict__.copy()
         if c_dict.get("datetime"):
-            try:
-                c_dict["datetime"] = convert_ist_to_timezone(c_dict["datetime"], tz).isoformat()
-            except Exception:
-                c_dict["datetime"] = c_dict["datetime"].isoformat()
+            c_dict["datetime"] = convert_ist_to_timezone(c_dict["datetime"], tz).isoformat()
         out.append(c_dict)
     return out
