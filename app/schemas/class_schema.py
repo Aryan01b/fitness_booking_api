@@ -11,4 +11,4 @@ class FitnessClassResponse(FitnessClassBase):
     id: int  # class_id
 
     class Config:
-        orm_mode = True  # Enables reading ORM objects directly
+        from_attributes = True  # Enables reading ORM objects directly in Pydantic v2
