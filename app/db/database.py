@@ -1,3 +1,4 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -5,6 +6,13 @@ import pytz
 
 from app.models.class_model import Base, FitnessClass
 from app.models.booking_model import Booking  # Needed for Base metadata
+
+# ---------------------------------------------------
+# Remove the existing test.db file if it exists
+# ---------------------------------------------------
+db_path = './test.db'
+if os.path.exists(db_path):
+    os.remove(db_path)
 
 # ---------------------------------------------------
 # 1. SQLite In-Memory Engine
@@ -30,6 +38,11 @@ Base.metadata.create_all(bind=engine)
 # ---------------------------------------------------
 def seed_data():
     db = SessionLocal()
+    # Only seed if there are no classes
+    if db.query(FitnessClass).first():
+        db.close()
+        return  # Already seeded
+
     ist = pytz.timezone("Asia/Kolkata")
     now = datetime.now(ist)
 
