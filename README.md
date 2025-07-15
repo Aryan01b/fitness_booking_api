@@ -111,6 +111,104 @@ Run the test suite with:
 pytest --cov=app --cov-report=term-missing
 ```
 
+---
+
+## 🧰 API Testing & Examples
+
+### Postman Collection
+
+A ready-to-use Postman collection is provided for automated API testing:
+
+- **File:** `Fitness Booking API Test.postman_collection.json`
+- **How to use:**
+  1. Open Postman and click `Import`.
+  2. Select or drag the file `Fitness Booking API Test.postman_collection.json` from the project root.
+  3. Run the requests or the full collection to verify your API locally.
+
+### Example cURL Commands
+
+You can also test the API using `curl` from your terminal:
+
+#### List All Classes
+```bash
+curl -X GET "http://127.0.0.1:8000/api/v1/classes"
+```
+**Expected Output:**
+```json
+[
+  {
+    "id": 1,
+    "name": "Yoga",
+    "datetime": "2025-07-16T07:00:00+05:30",
+    "instructor": "Alice",
+    "available_slots": 10
+  },
+  {
+    "id": 2,
+    "name": "Zumba",
+    "datetime": "2025-07-16T09:00:00+05:30",
+    "instructor": "Bob",
+    "available_slots": 0
+  }
+  // ...more classes
+]
+```
+
+#### List Classes with Timezone
+```bash
+curl -X GET "http://127.0.0.1:8000/api/v1/classes?display_tz=America/New_York"
+```
+**Expected Output:**
+```json
+[
+  {
+    "id": 1,
+    "name": "Yoga",
+    "datetime": "2025-07-15T21:30:00-04:00",
+    "instructor": "Alice",
+    "available_slots": 10
+  }
+  // ...more classes, datetime in New York time
+]
+```
+
+#### Create a Booking
+```bash
+curl -X POST "http://127.0.0.1:8000/api/v1/book" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "class_id": 1,
+    "client_name": "John Doe",
+    "client_email": "john@example.com"
+  }'
+```
+**Expected Output:**
+```json
+{
+  "id": 1,
+  "class_id": 1,
+  "client_name": "John Doe",
+  "client_email": "john@example.com"
+}
+```
+
+#### List Bookings by Email
+```bash
+curl -X GET "http://127.0.0.1:8000/api/v1/bookings?email=john@example.com"
+```
+**Expected Output:**
+```json
+[
+  {
+    "id": 1,
+    "class_id": 1,
+    "client_name": "John Doe",
+    "client_email": "john@example.com"
+  }
+  // ...more bookings for this email
+]
+```
+
 ## 🤝 Contributing
 
 1. Fork the repository
