@@ -12,6 +12,8 @@ app = FastAPI(
     description="API for viewing fitness classes and booking slots"
 )
 
+from app.middleware.logging_middleware import LoggingMiddleware
+
 # ---------------------------------------------------
 # Include API Routers
 # ---------------------------------------------------
@@ -28,3 +30,4 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(LoggingMiddleware)
